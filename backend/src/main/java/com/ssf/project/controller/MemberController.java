@@ -24,6 +24,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     public boolean signup(@RequestBody Member member) {
+        System.out.println("member 확인 => " + member);
         boolean result = false;
         
         // 서비스 호출

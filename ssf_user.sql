@@ -7,7 +7,7 @@ select database();
 
 /* 테이블 목록 확인 */
 show tables;
--- drop table ssf_user;
+drop table ssf_user;
 
 /****************************************
 * 작업내용 : user 테이블 생성
@@ -17,21 +17,17 @@ show tables;
 * 사용예시 : desc ssf_user;
 ****************************************/
 CREATE TABLE `ssf_user` (
-	`user_key`			VARCHAR(100)	primary key		COMMENT '회원고유번호',
-	`user_email`		VARCHAR(50)		NOT NULL		COMMENT '이메일',
-	`user_username`		VARCHAR(20)		NOT NULL		COMMENT '이름',
-	`user_userpwd`		VARCHAR(50)		NOT NULL		COMMENT '비밀번호',
-	`user_banned`		VARCHAR(1)		NULL			COMMENT '정지여부',
-	`user_signout`		VARCHAR(1)		NULL			COMMENT '회원탈퇴',
-	`user_signin`		DATE			NOT NULL		COMMENT '가입날짜',
-	`user_snsprov`		VARCHAR(100)	NULL			COMMENT 'SNS제공자종류',
-	`user_snsid`		VARCHAR(100)	NULL			COMMENT '사용자SNS고유ID',
-	`user_referralId`	VARCHAR(100)	NULL			COMMENT '추천인ID'
+	`user_key`		VARCHAR(100)	primary key		COMMENT '회원고유번호',
+	`email`			VARCHAR(50)		NOT NULL		COMMENT '이메일',
+	`username`		VARCHAR(20)		NOT NULL		COMMENT '이름',
+	`userpwd`		VARCHAR(100)	NOT NULL		COMMENT '비밀번호',
+	`banned`		VARCHAR(1)		NULL			COMMENT '정지여부',
+	`signout`		VARCHAR(1)		NULL			COMMENT '회원탈퇴',
+	`signin`		DATETIME		NOT NULL		COMMENT '가입날짜',
+	`snsprov`		VARCHAR(100)	NULL			COMMENT 'SNS제공자종류',
+	`snsid`			VARCHAR(100)	NULL			COMMENT '사용자SNS고유ID',
+	`referralId`	VARCHAR(100)	NULL			COMMENT '추천인ID'
 );
-
-INSERT INTO member (id, pwd, name, phone, email, mdate) VALUES (?, ?, ?, ?, ?, now());
-
-
 
 /****************************************
 * 작업내용 : 주소 테이블 생성
@@ -59,3 +55,11 @@ CREATE TABLE ssf_addr (
 
 desc ssf_user;
 select * from ssf_user;
+
+-- INSERT INTO ssf_user (user_key, email, username, userpwd, banned, signout, signin, snsprov, snsid, referralId) 
+-- VALUES ( UUID() , "test", "test", "test", "N", "N", now(), "test", "test", "test");
+
+DELETE FROM ssf_user;
+
+
+

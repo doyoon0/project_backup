@@ -23,8 +23,8 @@ public class MemberServiceImpl implements MemberService{    // MemberService mem
     @Override
     public int signup (Member member){
         // 패스워드 인코딩
-//        String encodePwd = passwordEncoder.encode(member.getPwd()); // UUID 타입으로 생성됨
-//        member.setPwd(encodePwd);
+        String encodePwd = passwordEncoder.encode(member.getUserpwd()); // UUID 타입으로 생성됨
+        member.setUserpwd(encodePwd);
         return memberRepository.save(member);
     };
 

@@ -20,17 +20,20 @@ public class JdbcTemplateMemberRepository implements MemberRepository{
     @Override
     public int save(Member member) {
         // jdbcTemplate객체를 이용하여 DB의 member 테이블에 insert
-//        String sql = "INSERT INTO member (id, pwd, name, phone, email, mdate) VALUES (?, ?, ?, ?, ?, now())";  // 보안 이슈로 prepareStatement
-//        Object[] param = {  member.getId(),
-//                            member.getPwd(),
-//                            member.getName(),
-//                            member.getPhone(),
-//                            member.getEmail()
-//                          };
-//
-//        int rows = jdbcTemplate.update(sql, param);
-//        System.out.println("rows ==> " + rows);
-//        return rows;
-        return 1;
+        String sql = """
+                INSERT INTO ssf_user (user_key, email, username, userpwd, banned, signout, signin, snsprov, snsid, referralId)
+                  VALUES ( UUID() , ?, ?, ?, 'N', 'N', now(), ?, ?, ?)
+                """;  // 보안 이슈로 prepareStatement
+        Object[] param = {  member.getEmail(),
+                            member.getUsername(),
+                            member.getUserpwd(),
+                            member.getSnsprov(),
+                            member.getSnsid(),
+                            member.getReferralId()
+                          };
+
+        int rows = jdbcTemplate.update(sql, param);
+        System.out.println("rows ==> " + rows);
+        return rows;
     }
 }
