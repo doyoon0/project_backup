@@ -64,6 +64,7 @@ export default function Login() {
     const success = await dispatch(getLogin(form, param));
 
     if (success) {
+      window.dispatchEvent(new Event("auth:changed"));
       alert("로그인에 성공하였습니다.");
       navigate("/");
 

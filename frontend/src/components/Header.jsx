@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import "./Header.css";
+import { useDispatch } from 'react-redux';
+import { useAuth } from "../context/AuthContext";
+import { getLogout } from "../feature/auth/authAPI.js";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 
 export default function Header() {
   const { user: authUser, logout } = useAuth();
@@ -26,6 +28,7 @@ export default function Header() {
   const headerRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   /** 공용 MegaMenu 래퍼 */
   const MegaMenu = ({ id, active, top, cols = "2", children }) => (
@@ -122,15 +125,22 @@ export default function Header() {
   }, [bannerVisible, location.pathname]);
 
   /** 인증/네비 핸들러 */
-  const handleLogout = () => {
-    // ✅ AuthContext의 logout 함수 사용
-    logout();
-    setIsLogin(false);
-    setUser(null);
-    try { window.dispatchEvent(new Event("auth:changed")); } catch {}
-    alert("로그아웃 되었습니다.");
-    navigate("/login");
+  const handleLogout = async() => {
+
+    //로그아웃 API 호출
+    const succ = await dispatch(getLogout());
+    localStorage.removeItem("loginInfo");
+    localStorage.removeItem("isLogin");
+
+    if(succ) {
+      setIsLogin(false);
+      setUser(null);    
+      alert("로그아웃 되었습니다.");
+      navigate("/");
+    }  
+
   };
+
   const handleCartClick = (e) => {
     if (!isLogin) { e.preventDefault(); alert("로그인이 필요합니다."); window.location.href = "/#/login"; }
   };

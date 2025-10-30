@@ -7,15 +7,15 @@ export const authSlice = createSlice({
   },
   reducers: {
     login(state, action) {
-        state.isLogin = !state.isLogin;
+        state.isLogin = true;
         const { userId } = action.payload;
         const loginInfo = {"token": "123455dkfdf", "userId": userId};
         localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+        localStorage.setItem("isLogin", state.isLogin);
 
     },
     logout(state) {
-        state.isLogin = !state.isLogin;
-        localStorage.removeItem("loginInfo");
+        state.isLogin = false;
     }
   }
 })

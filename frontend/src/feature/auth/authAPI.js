@@ -29,6 +29,10 @@ export const getLogin = (formData, param) => async(dispatch) => {
 
 /** Logout */
 export const getLogout = () => async(dispatch) => {
-    dispatch(logout());
-    return true;
+    const url = "/member/logout";
+    const result = await axiosPost(url, {});
+
+    if(result) { dispatch(logout()); }
+
+    return result;
 }

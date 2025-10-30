@@ -2,11 +2,15 @@ package com.ssf.project.controller;
 
 import com.ssf.project.dto.Member;
 import com.ssf.project.service.MemberService;
+import jakarta.servlet.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/member")
@@ -25,21 +29,54 @@ public class MemberController {
     @PostMapping("/signup")
     public boolean signup(@RequestBody Member member) {
         boolean result = false;
-        
+
         // 서비스 호출
         int rows = memberService.signup(member);
         if(rows == 1) result = true;
-        
+
         return result;
     }
 
     @PostMapping("/login")
-    public boolean Login(@RequestBody Member member) {
+    public ResponseEntity<?> Login(@RequestBody Member member,
+                         HttpServletRequest request) {
 
-        boolean result = false;
-        boolean loginConfirm = memberService.login(member);
-        if(loginConfirm) result = true;
+        ResponseEntity<?> response = null;
+        boolean result = memberService.login(member);
 
-        return result;
+        if(result) {
+            HttpSession session = request.getSession(true);
+            session.setAttribute("sid", member.getEmail());
+            response = ResponseEntity.ok(Map.of("login", true));
+        } else {
+            response = ResponseEntity.ok(Map.of("login", false));
+        }
+
+        return response;
+
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> Logout(HttpServletRequest request,
+                                    HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        String ssid = session.getId();
+        String sid = (String)session.getAttribute("sid");
+
+        System.out.println("ssid :: " + ssid + " sid :: " + sid);
+
+        if(ssid != null && sid != null) {
+            session.invalidate();
+
+            var cookie = new Cookie("JSESSIONID", null);
+            cookie.setPath("/");                // <- 기존과 동일
+            cookie.setMaxAge(0);                // <- 즉시 만료 (유효기간)
+            cookie.setHttpOnly(true);           // 개발 중에도 HttpOnly 유지 권장
+            // cookie.setSecure(true);          // HTTPS에서만. 로컬 http면 주석
+            // cookie.setDomain("localhost");   // 기존 쿠키가 domain=localhost였다면 지정
+            response.addCookie(cookie);
+        }
+
+        return ResponseEntity.ok(true);
     }
 }
