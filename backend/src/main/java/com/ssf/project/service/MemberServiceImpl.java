@@ -28,4 +28,12 @@ public class MemberServiceImpl implements MemberService{    // MemberService mem
         return memberRepository.save(member);
     };
 
+    @Override
+    public boolean login(Member member) {
+
+        String encodePwd = memberRepository.findByIdnPwd(member.getEmail());
+        boolean result = passwordEncoder.matches(member.getUserpwd(), encodePwd);
+
+        return result;
+    }
 }

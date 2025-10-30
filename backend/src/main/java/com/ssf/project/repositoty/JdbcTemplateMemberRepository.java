@@ -1,6 +1,7 @@
 package com.ssf.project.repositoty;
 
 import com.ssf.project.dto.Member;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -35,5 +36,27 @@ public class JdbcTemplateMemberRepository implements MemberRepository{
         int rows = jdbcTemplate.update(sql, param);
         System.out.println("rows ==> " + rows);
         return rows;
+//        String sql = "INSERT INTO member (id, pwd, name, phone, email, mdate) VALUES (?, ?, ?, ?, ?, now())";  // 보안 이슈로 prepareStatement
+//        Object[] param = {  member.getId(),
+//                            member.getPwd(),
+//                            member.getName(),
+//                            member.getPhone(),
+//                            member.getEmail()
+//                          };
+//
+//        int rows = jdbcTemplate.update(sql, param);
+//        System.out.println("rows ==> " + rows);
+//        return rows;
+        return 1;
+    }
+
+    @Override
+    public String findByIdnPwd(String id) {
+
+        String sql = "select ifnull(MAX(userpwd), null) as userpwd from ssf_user where email = ?";
+        Member member = jdbcTemplate.queryForObject(sql,
+                        new BeanPropertyRowMapper<>(Member.class), id);
+
+        return member.getUserpwd();
     }
 }

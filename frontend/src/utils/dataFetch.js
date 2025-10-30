@@ -10,7 +10,7 @@ export const fetchData = async (url) => {
 }
 
 /**
- *  axiosGet 함수를 이용하여 백엔드 연동 처리
+ * axiosGet 함수를 이용하여 백엔드 연동 처리
  */
 export const axiosGet = async (url) => {
     const response = await axios.get(url);
@@ -23,13 +23,7 @@ export const axiosGet = async (url) => {
 export const axiosPost = async (url, formData) => {
     console.log("url, formData -> ", url, formData)
     const response = await axios.post(url, formData, {"Content-Type" : "application/json"});
-//    console.log(response);
-//    const response = await axios({
-//        method : "POST",
-//        url : url,
-//        headers : { "Content-Type" : "application/json"},
-//        data: formData
-//    });
+
     return response.data;
 }
 

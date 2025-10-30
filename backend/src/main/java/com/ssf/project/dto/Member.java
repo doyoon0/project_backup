@@ -19,7 +19,10 @@ public class Member {
     private String signout;
     private String snsprov;
     private String snsid;
+
+    @JsonProperty("id")
     private String email;   // 이메일
+    
     private String userKey; // 회원고유번호
     private String banned;  //정지여부
 }

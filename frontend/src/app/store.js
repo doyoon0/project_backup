@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
+import authSlice from '../feature/auth/authSlice.js'
 
 // 액션 로깅 처리 담당 미들웨어
-const myLoggerMiddleware = (store) => (next) =>  (action) => {
+const myLoggerMiddleware = (store) => (next) => (action) => {
   console.log("dispatch :: ", action);
   const result = next(action);
   console.log("next state :: ", store.getState());
@@ -13,7 +14,7 @@ const myCartSaveMiddleware = (store) => (next) => (action) => {
   const result = next(action);
 
   // 장바구니(cartSlice) 경우에만 저장
-  if(typeof action.type === "string" && action.type.startsWith("cart/")){
+  if (typeof action.type === "string" && action.type.startsWith("cart/")) {
     const cart = store.getState().cart;
     localStorage.setItem("cart", JSON.stringify(cart));
   }
@@ -22,8 +23,6 @@ const myCartSaveMiddleware = (store) => (next) => (action) => {
 
 export const store = configureStore({
   reducer: {
-//    "cart": cartSlice,
-//    "product": productSlice,
-//    "auth": authSlice
+    "auth": authSlice,
   },
 })
