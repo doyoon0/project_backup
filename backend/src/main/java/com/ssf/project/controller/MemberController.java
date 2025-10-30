@@ -59,13 +59,9 @@ public class MemberController {
     @PostMapping("/logout")
     public ResponseEntity<?> Logout(HttpServletRequest request,
                                     HttpServletResponse response) {
+
         HttpSession session = request.getSession(false);
-        String ssid = session.getId();
-        String sid = (String)session.getAttribute("sid");
-
-        System.out.println("ssid :: " + ssid + " sid :: " + sid);
-
-        if(ssid != null && sid != null) {
+        if(session != null) {
             session.invalidate();
 
             var cookie = new Cookie("JSESSIONID", null);
