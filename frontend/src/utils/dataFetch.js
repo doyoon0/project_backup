@@ -50,7 +50,7 @@ export const groupByRows = (array, number) => {
 
     /* 방법(2) 누적합 이용하기 */
     const rows = array.reduce((acc, cur, idx) => {
-        if(idx % number == 0) acc.push([cur])
+        if(idx % number === 0) acc.push([cur])
         else acc[acc.length-1].push(cur);
 
         return acc;

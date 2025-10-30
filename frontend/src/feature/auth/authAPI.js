@@ -1,4 +1,3 @@
-import { axiosPost } from '../../utils/dataFetch.js';
 import { login, logout } from './authSlice.js';
 import { axiosPost } from '../../utils/dataFetch.js';
 import { validateFormCheck, validateSignupFormCheck } from '../../utils/validate.js';

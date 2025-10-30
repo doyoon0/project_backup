@@ -36,18 +36,6 @@ public class JdbcTemplateMemberRepository implements MemberRepository{
         int rows = jdbcTemplate.update(sql, param);
         System.out.println("rows ==> " + rows);
         return rows;
-//        String sql = "INSERT INTO member (id, pwd, name, phone, email, mdate) VALUES (?, ?, ?, ?, ?, now())";  // 보안 이슈로 prepareStatement
-//        Object[] param = {  member.getId(),
-//                            member.getPwd(),
-//                            member.getName(),
-//                            member.getPhone(),
-//                            member.getEmail()
-//                          };
-//
-//        int rows = jdbcTemplate.update(sql, param);
-//        System.out.println("rows ==> " + rows);
-//        return rows;
-        return 1;
     }
 
     @Override
