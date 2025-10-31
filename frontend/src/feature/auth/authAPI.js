@@ -29,7 +29,7 @@ export const getLogin = (formData, param) => async(dispatch) => {
         const url = "/member/login";
         const result = await axiosPost(url, formData);
 
-        if(result) {
+        if(result.login) {
             dispatch(login({"userId": formData.id}));
             return true;
         }
